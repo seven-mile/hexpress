@@ -9,12 +9,17 @@
 import cli;
 import login_cmd;
 import register_cmd;
+import quit_cmd;
 
 using namespace hexpress;
 
 int main()
 {
-  Startup<LoginCommandProvider, RegisterCommandProvider>();
+  Startup<
+    LoginCommandProvider,
+    RegisterCommandProvider,
+    QuitCommandProvider
+  >();
 
   return 0;
 }

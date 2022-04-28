@@ -70,7 +70,7 @@ namespace hexpress {
 
       command_name = line.substr(0, first_split);
 
-      std::regex param_regex{ "(\\w+)=\"(\\w*)\"" };
+      std::regex param_regex{ "\\s*(\\w+)\\s*=\\s*\"([^\"]*)\"" };
       std::sregex_iterator param_begin{
         line.begin() + first_split + 1,
         line.end(),
@@ -149,13 +149,26 @@ namespace hexpress {
   template<CLIProvider P>
   static void OutputCommandList(std::ostream& output) {
     output << std::format("{}: ", P::Prototype[0]);
+
+    if constexpr (P::Prototype.size() == 1) {
+      if constexpr (!CLIProviderHasOptional<P>) {
+        output << "no parameters" << std::endl;
+        return;
+      } else {
+        if constexpr (P::Optional.size() == 0) {
+          output << "no parameters" << std::endl;
+          return;
+        }
+      }
+    }
+
     for (auto it = std::next(std::begin(P::Prototype));
       it != std::end(P::Prototype); ++it) {
 
       output << std::format("<{}> ", *it);
     }
 
-    if constexpr (CharPointerArray<P>) {
+    if constexpr (CLIProviderHasOptional<P>) {
       for (auto& val : P::Optional) {
         output << std::format("[{}] ", val);
       }
@@ -174,20 +187,7 @@ namespace hexpress {
   static void OutputCommandHelp(std::ostream& output, std::string const& command) {
     if (command != P::Prototype[0]) return;
 
-    output << std::format("{}: ", P::Prototype[0]);
-    for (auto it = std::next(std::begin(P::Prototype));
-      it != std::end(P::Prototype); ++it) {
-
-      output << std::format("<{}> ", *it);
-    }
-
-    if constexpr (CharPointerArray<P>) {
-      for (auto& val : P::Optional) {
-        output << std::format("[{}] ", val);
-      }
-    }
-
-    output << std::endl;
+    OutputCommandList<P>(output);
   }
 
   template<CLIProvider P, CLIProvider Q, CLIProvider... Ps>
@@ -225,7 +225,7 @@ HExpress Management System [ Version 0.10 ]
 
 Command syntax: <Command Name> <ParameterA>="<ValueA>" [OptionalB]="<ValueB>"...
 
-help [command]
+help: [command]
 )";
         if constexpr (sizeof...(Ps) > 0)
           OutputCommandList<Ps...>(output);
