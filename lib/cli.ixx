@@ -52,6 +52,8 @@ namespace hexpress {
       std::string& command_name,
       std::map<std::string, std::string>& command_arg_list) {
 
+      output << ">>> ";
+
       std::string line;
       std::getline(input, line);
 
@@ -82,22 +84,18 @@ namespace hexpress {
       return true;
     }
 
-    template<CLIProvider P, bool OutputError = false>
+    template<CLIProvider P>
     bool CheckPrototype(
       std::string const& cmd,
       std::map<std::string, std::string> const& args) {
 
       if (P::Prototype[0] != cmd) {
-        if constexpr (OutputError) {
-          output << std::format("ERROR: invalid command name {}.\n", cmd.c_str());
-        }
+        //output << std::format("ERROR: invalid command name {}.\n", cmd.c_str());
         return false;
       }
       for (auto it = std::next(std::begin(P::Prototype)); it != std::end(P::Prototype); ++it) {
         if (!args.count(*it)) {
-          //if constexpr (OutputError) {
           output << std::format("ERROR: parameter \"{}\" missing!\n", *it);
-          //}
           return false;
         }
       }
@@ -138,7 +136,9 @@ namespace hexpress {
         while (input.fail() || !ParseLine(name, arg)) {
           IgnoreUtilNextInput();
         }
-        ProcessLine<Ps...>(name, arg);
+        if (!ProcessLine<Ps...>(name, arg)) {
+          output << "ERROR: Failed to execute command." << std::endl;
+        }
       }
     }
 

@@ -6,4 +6,7 @@
     <ClCompile Include="cmd\login_cmd.ixx" />
     <ClCompile Include="cmd\register_cmd.ixx" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+  </ItemGroup>
 </Project>
