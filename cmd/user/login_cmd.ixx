@@ -6,6 +6,8 @@ module;
 #include <format>
 export module login_cmd;
 
+import user_service;
+
 export namespace hexpress {
 
   struct LoginCommandProvider {
@@ -20,10 +22,14 @@ export namespace hexpress {
       std::ostream& output,
       std::map<std::string, std::string> const& args) {
 
-      output << std::format("hello from login command,\n{}\n{}\ncopying your password ;)",
-        args.at("username"),
-        args.at("password")) 
-        << std::endl;
+      std::string username = args.at("username"), pass = args.at("password");
+      
+      try {
+        UserService.Login(username, pass);
+      } catch (std::exception const& err) {
+        output << std::format("failed to login [{}]", err.what()) << std::endl;
+        return false;
+      }
 
       return true;
     }

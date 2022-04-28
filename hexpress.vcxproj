@@ -129,11 +129,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cmd\login_cmd.ixx" />
+    <ClCompile Include="cmd\user\login_cmd.ixx" />
     <ClCompile Include="cmd\quit_cmd.ixx" />
-    <ClCompile Include="cmd\register_cmd.ixx" />
+    <ClCompile Include="cmd\user\register_cmd.ixx" />
+    <ClCompile Include="cmd\user\whoami_cmd.ixx" />
     <ClCompile Include="lib\cli.ixx" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="service\user_service.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
