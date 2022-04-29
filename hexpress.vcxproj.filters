@@ -8,6 +8,7 @@
     <ClCompile Include="cmd\quit_cmd.ixx" />
     <ClCompile Include="service\user_service.ixx" />
     <ClCompile Include="cmd\user\whoami_cmd.ixx" />
+    <ClCompile Include="service\user_service.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

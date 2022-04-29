@@ -135,6 +135,7 @@
     <ClCompile Include="cmd\user\whoami_cmd.ixx" />
     <ClCompile Include="lib\cli.ixx" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="service\user_service.cpp" />
     <ClCompile Include="service\user_service.ixx" />
   </ItemGroup>
   <ItemGroup>
