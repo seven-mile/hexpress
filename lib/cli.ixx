@@ -38,6 +38,11 @@ namespace hexpress {
     { T::Optional } -> CharPointerArray;
   };
 
+  export template<class T>
+    concept CLIProviderHasDescription = requires() {
+      { T::Description } -> std::convertible_to<const char *>;
+  };
+
   export class CommandLineManager {
     std::istream& input;
     std::ostream& output;
@@ -175,6 +180,11 @@ namespace hexpress {
     }
 
     output << std::endl;
+
+    if constexpr (CLIProviderHasDescription<P>) {
+      output << '\t' << P::Description << std::endl;
+    }
+
   }
 
   template<CLIProvider P, CLIProvider Q, CLIProvider... Ps>

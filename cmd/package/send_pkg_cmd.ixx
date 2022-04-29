@@ -32,11 +32,15 @@ export namespace hexpress {
 
         UserService.Pay(SEND_PKG_FEE);
 
+        auto&& to_user = args.at("to_user");
+        // ensure existance
+        UserService.GetByName(to_user);
+
         int id = PackageService.InsertPackage(Package {
           .id = -1, // auto increamental
           .name = args.at("name"),
           .sender = UserService.GetCurrentUser().name,
-          .recver = args.at("to_user"),
+          .recver = to_user,
           .send_time = ::time(nullptr),
           .recv_time = INVALID_TIME,
           .recved = false,
