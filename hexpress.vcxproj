@@ -139,10 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cmd\courier\assign_courier_cmd.ixx" />
+    <ClCompile Include="cmd\courier\create_courier_cmd.ixx" />
+    <ClCompile Include="cmd\package\collect_pkg_cmd.ixx" />
     <ClCompile Include="cmd\package\get_my_pkgs_cmd.ixx" />
     <ClCompile Include="cmd\package\get_pkgs_cmd.ixx" />
     <ClCompile Include="cmd\package\send_pkg_cmd.ixx" />
     <ClCompile Include="cmd\package\sign_pkg_cmd.ixx" />
+    <ClCompile Include="cmd\user\change_pass_cmd.ixx" />
+    <ClCompile Include="cmd\user\delete_user_cmd.ixx" />
     <ClCompile Include="cmd\user\get_users_cmd.ixx" />
     <ClCompile Include="cmd\user\login_cmd.ixx" />
     <ClCompile Include="cmd\quit_cmd.ixx" />
@@ -152,13 +157,20 @@
     <ClCompile Include="lib\cli.ixx" />
     <ClCompile Include="lib\guards\role_guard.ixx" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="service\package_service\package_service.cpp" />
-    <ClCompile Include="service\package_service\package_service.ixx" />
-    <ClCompile Include="service\user_service\user_service.cpp" />
-    <ClCompile Include="service\user_service\user_service.ixx" />
+    <ClCompile Include="proto\object_proto.ixx" />
+    <ClCompile Include="service\courier\courier_service.cpp" />
+    <ClCompile Include="service\courier\courier_service.ixx" />
+    <ClCompile Include="service\package\package_service.cpp" />
+    <ClCompile Include="service\package\package_service.ixx" />
+    <ClCompile Include="service\user\user_service.cpp" />
+    <ClCompile Include="service\user\user_service.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="tests\test1.in.txt" />
+    <Text Include="tests\test2.out.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

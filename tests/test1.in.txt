@@ -1,0 +1,23 @@
+login username="admin" password="admin"
+
+create_courier username="c1" password="c1" realname="temp" phone="110"
+create_courier username="c2" password="c2" realname="temp2" phone="111"
+
+send_pkg name="qwq" type="book" amount="18" to_user="7mile"
+
+login username="c1" password="c1"
+collect_pkg id="1"
+
+login username="admin" password="admin"
+assign_courier to_pkg_id="1"
+
+login username="c1" password="c1"
+collect_pkg id="1"
+
+login username="admin" password="admin"
+get_pkgs
+
+login username="7mile" password="1234"
+sign_pkg id="1"
+get_my_pkgs type="recv"
+

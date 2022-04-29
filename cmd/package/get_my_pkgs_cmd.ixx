@@ -7,13 +7,15 @@ module;
 #include <vector>
 export module get_my_pkgs_cmd;
 
+import user_service;
 import package_service;
+import courier_service;
 import role_guard;
 
 export namespace hexpress {
 
   struct GetMyPkgsCommandProvider
-    : public RoleGuard<GetMyPkgsCommandProvider, Role::User, Role::Admin> {
+    : public RoleGuard<GetMyPkgsCommandProvider, Role::User, Role::Courier, Role::Admin> {
 
     static constexpr std::array Prototype{
       "get_my_pkgs",
@@ -21,7 +23,7 @@ export namespace hexpress {
     };
 
     static constexpr auto Description
-      = "Get my packages with <type = sent | recv | inbox>";
+      = "Get my packages with <type = sent | recv | inbox | assign>";
 
     static bool ExecuteCommandAfterCheck(
       std::ostream& output,
@@ -48,6 +50,18 @@ export namespace hexpress {
 
             OutputPackageInfo(output, pkg);
           }
+        } else if (type == "assign") {
+
+          auto&& cur_user = UserService.GetCurrentUser();
+
+          if (cur_user.role != Role::Courier) {
+            throw std::logic_error("you're not courier, no assigned packages!");
+          }
+
+          for (auto&& item : CourierService.GetCourierItems(cur_user.name)) {
+            OutputPackageInfo(output, PackageService.GetPackage(item.pkg));
+          }
+
         } else {
           throw std::invalid_argument("invalid type parameter");
         }

@@ -25,7 +25,9 @@ namespace hexpress {
 
     int tmp_role = 0;
     input >> tmp_role;
-    if (tmp_role != static_cast<int>(Role::User) && tmp_role != static_cast<int>(Role::Admin)) {
+    if (tmp_role != static_cast<int>(Role::User)
+      && tmp_role != static_cast<int>(Role::Admin)
+      && tmp_role != static_cast<int>(Role::Courier)) {
       input.setstate(std::ios::failbit);
       return input;
     }
@@ -70,9 +72,6 @@ namespace hexpress {
     for (User user; ifs >> user; ) {
       users[user.name] = user;
     }
-    if (!users.count("admin")) {
-      CreateDefaultAdminUser();
-    }
     if (ifs.eof()) return true;
     if (ifs.fail()) return false;
     return true;
@@ -82,12 +81,7 @@ namespace hexpress {
     std::ofstream ofs{ GetUserDBPath(), std::ios::trunc };
     if (!ofs.is_open()) return false;
     for (auto& user : users
-      | std::ranges::views::values
-      //| std::ranges::views::filter
-      //([](User const& user) {
-      //  return user.role == Role::User;
-      //})
-      )
+      | std::ranges::views::values)
       if (!(ofs << user)) return false;
     return true;
   }
@@ -95,6 +89,9 @@ namespace hexpress {
   CUserService::CUserService() {
     if (!this->Read()) {
       std::cerr << "WARNING: failed to read data from user database." << std::endl;
+    }
+    if (!users.count("admin")) {
+      CreateDefaultAdminUser();
     }
   }
 
@@ -127,6 +124,21 @@ namespace hexpress {
     return std::move(res);
   }
 
+  std::vector<User> CUserService::GetRoleUsers(Role role) const
+  {
+    std::vector<User> res;
+    for (auto&& user : users
+      | std::ranges::views::values
+      | std::ranges::views::filter(
+        [role](User const& user) {
+          return user.role == role;
+        }
+      )) {
+      res.emplace_back(user);
+    }
+    return std::move(res);
+  }
+
   void CUserService::Login(std::string const& username, std::string const& pass) {
     if (auto& user = users.at(username); user.pass == pass) {
       cur_user = user.name;
@@ -147,6 +159,10 @@ namespace hexpress {
     return GetByName("admin");
   }
 
+  void CUserService::RemoveUser(std::string const& username) {
+    users.erase(username);
+  }
+
   void CUserService::Pay(uint64_t money) {
     auto& cur = users.at(cur_user);
     if (cur.money < money) {
@@ -158,6 +174,16 @@ namespace hexpress {
 
   void CUserService::Recharge(uint64_t money) {
     users.at(cur_user).money += money;
+  }
+
+  void CUserService::FetchSalary(uint64_t salary) {
+    auto& admin = users.at("admin");
+    auto& cur = users.at(cur_user);
+    if (admin.money < salary) {
+      throw std::logic_error("company bankrupted!");
+    }
+    admin.money -= salary;
+    cur.money += salary;
   }
 
   void CUserService::ChangePassword(std::string const& new_pass)

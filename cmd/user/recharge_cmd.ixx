@@ -12,7 +12,7 @@ import role_guard;
 export namespace hexpress {
 
   struct RechargeCommandProvider
-    : public RoleGuard<RechargeCommandProvider, Role::User, Role::Admin> {
+    : public RoleGuard<RechargeCommandProvider, Role::User, Role::Courier, Role::Admin> {
 
     static constexpr std::array Prototype{
       "recharge",

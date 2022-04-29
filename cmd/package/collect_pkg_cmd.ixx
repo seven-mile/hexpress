@@ -5,19 +5,20 @@ module;
 #include <ostream>
 #include <format>
 #include <vector>
-export module sign_pkg_cmd;
+export module collect_pkg_cmd;
 
 import user_service;
 import package_service;
+import courier_service;
 import role_guard;
 
 export namespace hexpress {
 
-  struct SignPkgCommandProvider
-    : public RoleGuard<SignPkgCommandProvider, Role::User, Role::Admin> {
+  struct CollectPkgCommandProvider
+    : public RoleGuard<CollectPkgCommandProvider, Role::Courier> {
 
     static constexpr std::array Prototype{
-      "sign_pkg",
+      "collect_pkg",
       "id",
     };
 
@@ -28,10 +29,12 @@ export namespace hexpress {
       try {
         int id = std::strtol(args.at("id").c_str(), nullptr, 10);
         
-        PackageService.SignPackage(id);
+        int got_salary = PackageService.CollectPackage(id);
+
+        output << std::format("great! successfully collected, got {} as salary", got_salary) << std::endl;
 
       } catch (std::exception const& err) {
-        output << std::format("failed to sign package [{}]", err.what()) << std::endl;
+        output << std::format("failed to collect package [{}]", err.what()) << std::endl;
         return false;
       }
 

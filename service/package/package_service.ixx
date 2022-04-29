@@ -6,12 +6,18 @@ export module package_service;
 
 namespace hexpress {
 
+  export struct PackageState {
+    constexpr static int Collecting = 0;
+    constexpr static int Sending = 1;
+    constexpr static int Received = 2;
+  };
+
   export struct Package {
     int id;
     std::string name;
     std::string sender, recver;
     time_t send_time, recv_time;
-    bool recved;
+    int state;
   };
 
   export extern constexpr time_t INVALID_TIME = static_cast<time_t>(-1);
@@ -23,6 +29,20 @@ namespace hexpress {
     return std::to_string(val);
   };
 
+  export std::string to_string(int const& state) {
+    switch (state)
+    {
+    case PackageState::Collecting:
+      return "Collecting";
+    case PackageState::Sending:
+      return "Sending";
+    case PackageState::Received:
+      return "Received";
+    default:
+      throw std::invalid_argument("invalid package state");
+    }
+  }
+
   export void OutputPackageInfo(
     std::ostream &output,
     Package const& pkg) {
@@ -30,7 +50,7 @@ namespace hexpress {
     output << std::format("id: {}\tname: {}\t{} -> {} [{}]  {} => {}",
       pkg.id, pkg.name.c_str(),
       pkg.sender.c_str(), pkg.recver.c_str(),
-      pkg.recved ? "Received" : "Sending",
+      to_string(pkg.state),
       stringify_datetime(pkg.send_time).c_str(),
       stringify_datetime(pkg.recv_time).c_str())
       << std::endl;
@@ -49,7 +69,7 @@ namespace hexpress {
       make_column("recver", &Package::recver),
       make_column("send_time", &Package::send_time),
       make_column("recv_time", &Package::recv_time),
-      make_column("recved", &Package::recved)
+      make_column("state", &Package::state)
     ));
     return pkg_store;
   }
@@ -96,6 +116,8 @@ namespace hexpress {
     int InsertPackage(Package const& pkg);
 
     void SignPackage(int id);
+
+    int CollectPackage(int id);
 
     Package GetPackage(int id);
   };

@@ -1,0 +1,79 @@
+>>> login username="c1" password="c1"
+>>> whoami
+name: c1        realname: temp
+money: 208      role: Courier
+phone: 110
+
+>>> login username="7mile" password="1234"
+>>> recharge money="100"
+>>> help command="send_pkg"
+send_pkg: <name> <type> <amount> <to_user>
+
+>>> send_pkg name="love" type="Fragile" amount = "42" to_user="admin"
+failed to send package [insufficient balance]
+ERROR: Failed to execute command.
+>>> recharge money="900"
+>>> send_pkg name="love" type="Fragile" amount = "42" to_user="admin"
+you have paid 336 units of money for express.
+your package has been sent successfully! tracking number: 7.
+
+>>> login username="admin" password="admin"
+>>> assign_courier courier="c2" to_pkg_id="7"
+this package is assigned to c2 successfully
+>>> login username="c2" password="c2"
+>>> whoami
+name: c2        realname: temp2
+money: 104      role: Courier
+phone: 111
+
+>>> get_my_pkgs type="assign"
+id: 1   name: qwq       admin -> 7mile [Received]  1651243725 => 1651244208
+id: 7   name: love      7mile -> admin [Collecting]  1651247145 => invalid
+>>> collect_pkg id="7"
+great! successfully collected, got 336 as salary
+>>> whoami
+name: c2        realname: temp2
+money: 272      role: Courier
+phone: 111
+
+>>> get_my_pkgs type="sent"
+>>> get_my_pkgs type="orz"
+failed to list packages [invalid type parameter]
+ERROR: Failed to execute command.
+>>> login username="7mile" password="1234"
+>>> get_my_pkgs type="sent"
+id: 7   name: love      7mile -> admin [Sending]  1651247145 => invalid
+>>> get_my_pkgs type="recv"
+id: 1   name: qwq       admin -> 7mile [Received]  1651243725 => 1651244208
+id: 2   name: qwq       admin -> 7mile [Collecting]  1651244858 => invalid
+id: 3   name: qwq       admin -> 7mile [Collecting]  1651245221 => invalid
+id: 4   name: orzzz     admin -> 7mile [Received]  1651246134 => 1651246314
+id: 5   name: orzzz     admin -> 7mile [Received]  1651246136 => 1651246316
+id: 6   name: orzzz     admin -> 7mile [Received]  1651246137 => 1651246318
+>>> get_my_pkgs type="inbox"
+>>> login username="admin" password="admin"
+>>> get_my_pkgs type="sent"
+id: 1   name: qwq       admin -> 7mile [Received]  1651243725 => 1651244208
+id: 2   name: qwq       admin -> 7mile [Collecting]  1651244858 => invalid
+id: 3   name: qwq       admin -> 7mile [Collecting]  1651245221 => invalid
+id: 4   name: orzzz     admin -> 7mile [Received]  1651246134 => 1651246314
+id: 5   name: orzzz     admin -> 7mile [Received]  1651246136 => 1651246316
+id: 6   name: orzzz     admin -> 7mile [Received]  1651246137 => 1651246318
+>>> get_my_pkgs type="recv"
+id: 7   name: love      7mile -> admin [Sending]  1651247145 => invalid
+>>> get_my_pkgs type="inbox"
+id: 7   name: love      7mile -> admin [Sending]  1651247145 => invalid
+>>> sign_pkg id="7"
+>>> get_my_pkgs type="inbox"
+>>> get_my_pkgs type="recv"
+id: 7   name: love      7mile -> admin [Received]  1651247145 => 1651247345
+>>> get_pkgs
+id: 1   name: qwq       admin -> 7mile [Received]  1651243725 => 1651244208
+id: 2   name: qwq       admin -> 7mile [Collecting]  1651244858 => invalid
+id: 3   name: qwq       admin -> 7mile [Collecting]  1651245221 => invalid
+id: 4   name: orzzz     admin -> 7mile [Received]  1651246134 => 1651246314
+id: 5   name: orzzz     admin -> 7mile [Received]  1651246136 => 1651246316
+id: 6   name: orzzz     admin -> 7mile [Received]  1651246137 => 1651246318
+id: 7   name: love      7mile -> admin [Received]  1651247145 => 1651247345
+>>> quit
+Quit...

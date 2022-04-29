@@ -8,16 +8,19 @@ export module user_service;
 namespace hexpress {
   export enum class Role : int {
     User,
+    Courier,
     Admin,
   };
 
   export std::string to_string(Role const& role) {
     switch (role)
     {
-    case hexpress::Role::Admin:
+    case Role::Admin:
       return "Admin";
-    case hexpress::Role::User:
+    case Role::User:
       return "User";
+    case Role::Courier:
+      return "Courier";
     default:
       throw std::runtime_error("invalid role");
     }
@@ -57,6 +60,8 @@ namespace hexpress {
 
     std::vector<User> GetUsers() const;
 
+    std::vector<User> GetRoleUsers(Role role) const;
+
     void Login(std::string const& username, std::string const& pass);
 
     bool IsLoggedIn() const;
@@ -65,9 +70,13 @@ namespace hexpress {
 
     User GetAdminUser() const;
 
+    void RemoveUser(std::string const &username);
+
     void Pay(uint64_t money);
 
     void Recharge(uint64_t money);
+
+    void FetchSalary(uint64_t salary);
 
     void ChangePassword(std::string const& new_pass);
 

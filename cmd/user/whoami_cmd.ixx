@@ -12,7 +12,7 @@ import role_guard;
 export namespace hexpress {
 
   struct WhoamiCommandProvider
-    : public RoleGuard<WhoamiCommandProvider, Role::User, Role::Admin> {
+    : public RoleGuard<WhoamiCommandProvider, Role::User, Role::Courier, Role::Admin> {
 
     static constexpr std::array Prototype{
       "whoami",
@@ -24,7 +24,19 @@ export namespace hexpress {
 
       if (UserService.IsLoggedIn()) {
         auto &&user = UserService.GetCurrentUser();
-        output << std::format("{} :: {}", user.name, to_string(user.role)).c_str() << std::endl;
+        
+        output << std::format("name: {}\trealname: {}\t", user.name, user.realname) << std::endl;
+        output << std::format("money: {}\trole: {}", user.money, to_string(user.role).c_str()) << std::endl;
+
+        if (user.phone.size()) {
+          output << "phone: " << user.phone << std::endl;
+        }
+
+        if (user.address.size()) {
+          output << "address: " << user.address << std::endl;
+        }
+
+        output << std::endl;
       } else {
         output << "You're not logged in yet!" << std::endl;
       }
