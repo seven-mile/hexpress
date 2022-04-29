@@ -1,6 +1,7 @@
 module;
 #include <string>
 #include <map>
+#include <vector>
 #include <stdexcept>
 export module user_service;
 
@@ -54,11 +55,17 @@ namespace hexpress {
 
     User GetByName(std::string const& username) const;
 
+    std::vector<User> GetUsers() const;
+
     void Login(std::string const& username, std::string const& pass);
 
     bool IsLoggedIn() const;
 
     User GetCurrentUser() const;
+
+    User GetAdminUser() const;
+
+    void Pay(uint64_t money);
 
     void Recharge(uint64_t money);
 

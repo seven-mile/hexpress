@@ -70,6 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -102,9 +110,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,9 +126,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,15 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cmd\package\get_pkgs_cmd.ixx" />
+    <ClCompile Include="cmd\package\send_pkg_cmd.ixx" />
+    <ClCompile Include="cmd\package\sign_pkg_cmd.ixx" />
+    <ClCompile Include="cmd\user\get_users_cmd.ixx" />
     <ClCompile Include="cmd\user\login_cmd.ixx" />
     <ClCompile Include="cmd\quit_cmd.ixx" />
+    <ClCompile Include="cmd\user\recharge_cmd.ixx" />
     <ClCompile Include="cmd\user\register_cmd.ixx" />
     <ClCompile Include="cmd\user\whoami_cmd.ixx" />
     <ClCompile Include="lib\cli.ixx" />
     <ClCompile Include="lib\guards\role_guard.ixx" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="service\user_service.cpp" />
-    <ClCompile Include="service\user_service.ixx" />
+    <ClCompile Include="service\package_service\package_service.cpp" />
+    <ClCompile Include="service\package_service\package_service.ixx" />
+    <ClCompile Include="service\user_service\user_service.cpp" />
+    <ClCompile Include="service\user_service\user_service.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

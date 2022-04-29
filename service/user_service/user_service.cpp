@@ -117,6 +117,14 @@ namespace hexpress {
     return users.at(username);
   }
 
+  std::vector<User> CUserService::GetUsers() const {
+    std::vector<User> res;
+    for (auto&& user : users | std::ranges::views::values) {
+      res.emplace_back(user);
+    }
+    return std::move(res);
+  }
+
   void CUserService::Login(std::string const& username, std::string const& pass) {
     if (auto& user = users.at(username); user.pass == pass) {
       cur_user = user.name;
@@ -131,6 +139,19 @@ namespace hexpress {
 
   User CUserService::GetCurrentUser() const {
     return GetByName(cur_user);
+  }
+
+  User CUserService::GetAdminUser() const {
+    return GetByName("admin");
+  }
+
+  void CUserService::Pay(uint64_t money) {
+    auto& cur = users.at(cur_user);
+    if (cur.money < money) {
+      throw std::logic_error("insufficient balance");
+    }
+    users.at("admin").money += money;
+    cur.money -= money;
   }
 
   void CUserService::Recharge(uint64_t money) {

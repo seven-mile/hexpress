@@ -6,10 +6,17 @@
     <ClCompile Include="cmd\user\login_cmd.ixx" />
     <ClCompile Include="cmd\user\register_cmd.ixx" />
     <ClCompile Include="cmd\quit_cmd.ixx" />
-    <ClCompile Include="service\user_service.ixx" />
+    <ClCompile Include="service\user_service\user_service.ixx" />
     <ClCompile Include="cmd\user\whoami_cmd.ixx" />
-    <ClCompile Include="service\user_service.cpp" />
+    <ClCompile Include="service\user_service\user_service.cpp" />
     <ClCompile Include="lib\guards\role_guard.ixx" />
+    <ClCompile Include="service\package_service\package_service.ixx" />
+    <ClCompile Include="service\package_service\package_service.cpp" />
+    <ClCompile Include="cmd\package\get_pkgs_cmd.ixx" />
+    <ClCompile Include="cmd\package\send_pkg_cmd.ixx" />
+    <ClCompile Include="cmd\package\sign_pkg_cmd.ixx" />
+    <ClCompile Include="cmd\user\get_users_cmd.ixx" />
+    <ClCompile Include="cmd\user\recharge_cmd.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
