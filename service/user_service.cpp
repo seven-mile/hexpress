@@ -10,6 +10,10 @@ import user_service;
 
 namespace hexpress {
 
+  inline std::filesystem::path GetUserDBPath() {
+    return std::filesystem::current_path() / "user.db";
+  }
+
   std::istream& operator>>(std::istream& input, User& user) {
     if (!std::getline(input, user.name)) return input;
     if (!std::getline(input, user.realname)) return input;
@@ -42,9 +46,6 @@ namespace hexpress {
       << static_cast<int>(user.role) << std::endl;
   }
 
-  using namespace std::filesystem;
-
-  static path file_path = current_path() / "user.db";
 
   void CUserService::CreateDefaultAdminUser() {
     users.emplace(
@@ -65,7 +66,7 @@ namespace hexpress {
     users.clear();
     CreateDefaultAdminUser();
 
-    std::ifstream ifs{ file_path };
+    std::ifstream ifs{ GetUserDBPath() };
     if (!ifs.is_open()) return false;
     for (User user; ifs >> user; ) {
       users[user.name] = user;
@@ -76,7 +77,7 @@ namespace hexpress {
   }
 
   bool CUserService::Write() {
-    std::ofstream ofs{ file_path, std::ios::trunc };
+    std::ofstream ofs{ GetUserDBPath(), std::ios::trunc };
     if (!ofs.is_open()) return false;
     for (auto& user : users
       | std::ranges::views::values
@@ -132,8 +133,13 @@ namespace hexpress {
     return GetByName(cur_user);
   }
 
-  void CUserService::Recharge(std::string const& username, uint64_t money) {
-    users.at(username).money += money;
+  void CUserService::Recharge(uint64_t money) {
+    users.at(cur_user).money += money;
+  }
+
+  void CUserService::ChangePassword(std::string const& new_pass)
+  {
+    users.at(cur_user).pass = new_pass;
   }
 
 }

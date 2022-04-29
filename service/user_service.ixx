@@ -1,6 +1,7 @@
 module;
 #include <string>
 #include <map>
+#include <stdexcept>
 export module user_service;
 
 namespace hexpress {
@@ -8,6 +9,18 @@ namespace hexpress {
     User,
     Admin,
   };
+
+  export std::string to_string(Role const& role) {
+    switch (role)
+    {
+    case hexpress::Role::Admin:
+      return "Admin";
+    case hexpress::Role::User:
+      return "User";
+    default:
+      throw std::runtime_error("invalid role");
+    }
+  }
 
   export struct User {
     std::string name, pass, realname, phone, address;
@@ -47,7 +60,9 @@ namespace hexpress {
 
     User GetCurrentUser() const;
 
-    void Recharge(std::string const& username, uint64_t money);
+    void Recharge(uint64_t money);
+
+    void ChangePassword(std::string const& new_pass);
 
   };
 

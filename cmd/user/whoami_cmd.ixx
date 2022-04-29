@@ -7,34 +7,24 @@ module;
 export module whoami_cmd;
 
 import user_service;
+import role_guard;
 
 export namespace hexpress {
 
-  struct WhoamiCommandProvider {
+  struct WhoamiCommandProvider
+    : public RoleGuard<WhoamiCommandProvider, Role::User, Role::Admin> {
 
     static constexpr std::array Prototype{
       "whoami",
     };
 
-    static bool ExecuteCommand(
+    static bool ExecuteCommandAfterCheck(
       std::ostream& output,
       std::map<std::string, std::string> const& args) {
 
-      auto stringify_role = [](Role role) {
-        switch (role)
-        {
-        case hexpress::Role::Admin:
-          return "Admin";
-        case hexpress::Role::User:
-          return "User";
-        default:
-          throw std::runtime_error("invalid role");
-        }
-      };
-
       if (UserService.IsLoggedIn()) {
         auto &&user = UserService.GetCurrentUser();
-        output << std::format("{} :: {}", user.name, stringify_role(user.role)).c_str() << std::endl;
+        output << std::format("{} :: {}", user.name, to_string(user.role)).c_str() << std::endl;
       } else {
         output << "You're not logged in yet!" << std::endl;
       }

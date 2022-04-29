@@ -9,6 +9,7 @@
     <ClCompile Include="service\user_service.ixx" />
     <ClCompile Include="cmd\user\whoami_cmd.ixx" />
     <ClCompile Include="service\user_service.cpp" />
+    <ClCompile Include="lib\guards\role_guard.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
