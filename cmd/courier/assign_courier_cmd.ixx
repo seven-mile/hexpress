@@ -41,10 +41,10 @@ export namespace hexpress {
         
         CourierService.AssignWorkItem(pkg_id, courier);
 
-        output << std::format("this package is assigned to {} successfully", courier.c_str()) << std::endl;
+        output << std::format("this package is assigned to {} successfully\n", courier.c_str());
 
       } catch (std::exception const& err) {
-        output << std::format("failed to assign courier [{}]", err.what()) << std::endl;
+        output << std::format("failed to assign courier [{}]\n", err.what());
         return false;
       }
 

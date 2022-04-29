@@ -25,20 +25,20 @@ export namespace hexpress {
       if (UserService.IsLoggedIn()) {
         auto &&user = UserService.GetCurrentUser();
         
-        output << std::format("name: {}\trealname: {}\t", user.name, user.realname) << std::endl;
-        output << std::format("money: {}\trole: {}", user.money, to_string(user.role).c_str()) << std::endl;
+        output << std::format("name: {}\trealname: {}\n", user.name, user.realname);
+        output << std::format("money: {}\trole: {}\n", user.money, to_string(user.role).c_str());
 
         if (user.phone.size()) {
-          output << "phone: " << user.phone << std::endl;
+          output << "phone: " << user.phone << '\n';
         }
 
         if (user.address.size()) {
-          output << "address: " << user.address << std::endl;
+          output << "address: " << user.address << '\n';
         }
 
-        output << std::endl;
+        output << '\n';
       } else {
-        output << "You're not logged in yet!" << std::endl;
+        output << "You're not logged in yet!" << '\n';
       }
 
       return true;

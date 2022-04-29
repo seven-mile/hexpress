@@ -54,7 +54,7 @@ export namespace hexpress {
       try {
         UserService.InsertUser(user);
       } catch (std::exception const& err) {
-        output << std::format("failed to create courier [{}]", err.what()) << std::endl;
+        output << std::format("failed to create courier [{}]\n", err.what());
         return false;
       }
 

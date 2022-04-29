@@ -29,7 +29,7 @@ export namespace hexpress {
         UserService.Recharge(money);
         
       } catch (std::exception const& err) {
-        output << std::format("failed to recharge [{}]", err.what()) << std::endl;
+        output << std::format("failed to recharge [{}]\n", err.what());
         return false;
       }
 

@@ -37,11 +37,11 @@ namespace hexpress {
         if (CheckRole<roles...>(UserService.GetCurrentUser().role)) {
           return T::ExecuteCommandAfterCheck(output, args);
         } else {
-          output << "permission denied!" << std::endl;
+          output << "permission denied!\n";
           return false;
         }
       } catch (std::exception const& err) {
-        output << std::format("permission denied! [{}]", err.what()) << std::endl;
+        output << std::format("permission denied! [{}]\n", err.what());
         return false;
       }
 

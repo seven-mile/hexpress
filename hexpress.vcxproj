@@ -156,6 +156,8 @@
     <ClCompile Include="cmd\user\whoami_cmd.ixx" />
     <ClCompile Include="lib\cli.ixx" />
     <ClCompile Include="lib\guards\role_guard.ixx" />
+    <ClCompile Include="lib\socket_stream.cpp" />
+    <ClCompile Include="lib\socket_stream.ixx" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="proto\object_proto.ixx" />
     <ClCompile Include="service\courier\courier_service.cpp" />

@@ -47,13 +47,12 @@ namespace hexpress {
     std::ostream &output,
     Package const& pkg) {
 
-    output << std::format("id: {}\tname: {}\t{} -> {} [{}]  {} => {}",
+    output << std::format("id: {}\tname: {}\t{} -> {} [{}]  {} => {}\n",
       pkg.id, pkg.name.c_str(),
       pkg.sender.c_str(), pkg.recver.c_str(),
       to_string(pkg.state),
       stringify_datetime(pkg.send_time).c_str(),
-      stringify_datetime(pkg.recv_time).c_str())
-      << std::endl;
+      stringify_datetime(pkg.recv_time).c_str());
   }
 
   using namespace sqlite_orm;

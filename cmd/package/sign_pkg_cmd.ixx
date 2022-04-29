@@ -31,7 +31,7 @@ export namespace hexpress {
         PackageService.SignPackage(id);
 
       } catch (std::exception const& err) {
-        output << std::format("failed to sign package [{}]", err.what()) << std::endl;
+        output << std::format("failed to sign package [{}]\n", err.what());
         return false;
       }
 

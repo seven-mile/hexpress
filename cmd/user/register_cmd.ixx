@@ -57,7 +57,7 @@ export namespace hexpress {
       try {
         UserService.InsertUser(user);
       } catch (std::exception const& err) {
-        output << std::format("failed to register [{}]", err.what()) << std::endl;
+        output << std::format("failed to register [{}]\n", err.what());
         return false;
       }
 

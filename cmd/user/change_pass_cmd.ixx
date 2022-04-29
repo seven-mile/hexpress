@@ -36,7 +36,7 @@ export namespace hexpress {
         }
 
       } catch (std::exception const& err) {
-        output << std::format("failed to delete user [{}]", err.what()) << std::endl;
+        output << std::format("failed to delete user [{}]\n", err.what());
 
         return false;
       }

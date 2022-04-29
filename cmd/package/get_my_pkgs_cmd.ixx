@@ -67,7 +67,7 @@ export namespace hexpress {
         }
 
       } catch (std::exception const& err) {
-        output << std::format("failed to list packages [{}]", err.what()) << std::endl;
+        output << std::format("failed to list packages [{}]\n", err.what());
         return false;
       }
 

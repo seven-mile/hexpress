@@ -26,6 +26,8 @@
     <ClCompile Include="cmd\courier\assign_courier_cmd.ixx" />
     <ClCompile Include="cmd\user\delete_user_cmd.ixx" />
     <ClCompile Include="cmd\user\change_pass_cmd.ixx" />
+    <ClCompile Include="lib\socket_stream.ixx" />
+    <ClCompile Include="lib\socket_stream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

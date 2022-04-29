@@ -50,7 +50,7 @@ namespace hexpress {
     void IgnoreUtilNextInput() {
       const std::streamsize MAX_LINE = 1000000;
       input.clear();
-      input.ignore(MAX_LINE, '\n');
+      //input.ignore(MAX_LINE, '\n');
     }
 
     bool ParseLine(
@@ -58,6 +58,7 @@ namespace hexpress {
       std::map<std::string, std::string>& command_arg_list) {
 
       output << ">>> ";
+      output.flush();
 
       std::string line;
       std::getline(input, line);
@@ -95,7 +96,6 @@ namespace hexpress {
       std::map<std::string, std::string> const& args) {
 
       if (P::Prototype[0] != cmd) {
-        //output << std::format("ERROR: invalid command name {}.\n", cmd.c_str());
         return false;
       }
       for (auto it = std::next(std::begin(P::Prototype)); it != std::end(P::Prototype); ++it) {
@@ -138,12 +138,17 @@ namespace hexpress {
       while (!input.eof()) {
         std::string name;
         std::map<std::string, std::string> arg;
-        while (input.fail() || !ParseLine(name, arg)) {
-          IgnoreUtilNextInput();
+        while (true) {
+          if (input.fail()) {
+            IgnoreUtilNextInput();
+          }
+
+          if (ParseLine(name, arg)) break;
         }
         if (!ProcessLine<Ps...>(name, arg)) {
-          output << "ERROR: Failed to execute command." << std::endl;
+          output << "ERROR: Failed to execute command.\n";
         }
+        output.flush();
       }
     }
 
@@ -157,11 +162,11 @@ namespace hexpress {
 
     if constexpr (P::Prototype.size() == 1) {
       if constexpr (!CLIProviderHasOptional<P>) {
-        output << "no parameters" << std::endl;
+        output << "no parameters\n";
         return;
       } else {
         if constexpr (P::Optional.size() == 0) {
-          output << "no parameters" << std::endl;
+          output << "no parameters\n";
           return;
         }
       }
@@ -179,10 +184,10 @@ namespace hexpress {
       }
     }
 
-    output << std::endl;
+    output << '\n';
 
     if constexpr (CLIProviderHasDescription<P>) {
-      output << '\t' << P::Description << std::endl;
+      output << '\t' << P::Description << '\n';
     }
 
   }
@@ -225,7 +230,7 @@ namespace hexpress {
 
         if constexpr (sizeof...(Ps) > 0)
           OutputCommandHelp<Ps...>(output, it->second);
-        output << std::endl;
+        output << '\n';
 
       } else {
 
@@ -240,7 +245,7 @@ help: [command]
         if constexpr (sizeof...(Ps) > 0)
           OutputCommandList<Ps...>(output);
 
-        output << std::endl;
+        output << '\n';
       }
 
       return true;
@@ -248,8 +253,8 @@ help: [command]
   };
 
   export template<hexpress::CLIProvider... Ps>
-  void Startup() {
-    hexpress::CommandLineManager cli{ std::cin, std::cout };
+  void Startup(std::istream &input = std::cin, std::ostream &output = std::cout) {
+    hexpress::CommandLineManager cli{ input, output };
 
     cli.ProcessStream<hexpress::HelpCommandProvider<Ps...>, Ps...>();
   }

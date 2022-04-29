@@ -27,7 +27,7 @@ export namespace hexpress {
       try {
         UserService.Login(username, pass);
       } catch (std::exception const& err) {
-        output << std::format("failed to login [{}]", err.what()) << std::endl;
+        output << std::format("failed to login [{}]\n", err.what());
         return false;
       }
 

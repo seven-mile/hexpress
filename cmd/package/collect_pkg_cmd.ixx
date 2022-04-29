@@ -31,10 +31,10 @@ export namespace hexpress {
         
         int got_salary = PackageService.CollectPackage(id);
 
-        output << std::format("great! successfully collected, got {} as salary", got_salary) << std::endl;
+        output << std::format("great! successfully collected, got {} as salary\n", got_salary);
 
       } catch (std::exception const& err) {
-        output << std::format("failed to collect package [{}]", err.what()) << std::endl;
+        output << std::format("failed to collect package [{}]\n", err.what());
         return false;
       }
 

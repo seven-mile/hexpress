@@ -25,22 +25,22 @@ export namespace hexpress {
       try {
         
         for (auto&& user : UserService.GetUsers()) {
-          output << std::format("name: {}\trealname: {}\t", user.name, user.realname) << std::endl;
-          output << std::format("money: {}\trole: {}", user.money, to_string(user.role).c_str()) << std::endl;
+          output << std::format("name: {}\trealname: {}\t", user.name, user.realname) << '\n';
+          output << std::format("money: {}\trole: {}", user.money, to_string(user.role).c_str()) << '\n';
 
           if (user.phone.size()) {
-            output << "phone: " << user.phone << std::endl;
+            output << "phone: " << user.phone << '\n';
           }
 
           if (user.address.size()) {
-            output << "address: " << user.address << std::endl;
+            output << "address: " << user.address << '\n';
           }
 
-          output << std::endl;
+          output << '\n';
         }
 
       } catch (std::exception const& err) {
-        output << std::format("failed to list users [{}]", err.what()) << std::endl;
+        output << std::format("failed to list users [{}]", err.what()) << '\n';
         return false;
       }
 

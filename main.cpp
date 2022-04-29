@@ -2,6 +2,8 @@
 
 import cli;
 
+import socket_stream;
+
 // user module
 import login_cmd;
 import register_cmd;
@@ -28,6 +30,18 @@ int main()
 {
   using namespace hexpress;
 
+  socketstream server, client;
+
+  server.open("4567", 4);
+  server.accept(client);
+
+  std::cout << "Connection from " << client.remote_address() << std::endl;
+
+  if (!client.is_open()) {
+    std::cerr << "closed" << std::endl;
+    return -1;
+  }
+
   Startup<
     LoginCommandProvider,
     RegisterCommandProvider,
@@ -47,7 +61,11 @@ int main()
     CreateCourierCommandProvider,
 
     QuitCommandProvider
-  >();
+  >(client, client);
+
+  client.shutdown(std::ios::out);
+  client.close();
+  server.close();
 
   return 0;
 }

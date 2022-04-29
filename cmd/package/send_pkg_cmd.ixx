@@ -58,9 +58,8 @@ export namespace hexpress {
         });
 
         output << std::format("you have paid {} units of money for express.\n"
-          "your package has been sent successfully! tracking number: {}.\n",
-          obj->GetPrice(), id)
-        << std::endl;
+          "your package has been sent successfully! tracking number: {}.\n\n",
+          obj->GetPrice(), id);
 
         // record an empty work item to wait for courier allocation
         CourierService.InsertWorkItem(WorkItem{
@@ -70,7 +69,7 @@ export namespace hexpress {
         });
 
       } catch (std::exception const& err) {
-        output << std::format("failed to send package [{}]", err.what()) << std::endl;
+        output << std::format("failed to send package [{}]\n", err.what());
         return false;
       }
 
