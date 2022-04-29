@@ -42,7 +42,10 @@ export namespace hexpress {
           .recved = false,
         });
 
-        output << std::format("you have paid {} units of money for express.\nyour package has been sent successfully! tracking number: {}.\n") << std::endl;
+        output << std::format("you have paid {} units of money for express.\n"
+          "your package has been sent successfully! tracking number: {}.\n",
+          SEND_PKG_FEE, id)
+        << std::endl;
 
       } catch (std::exception const& err) {
         output << std::format("failed to send package [{}]", err.what()) << std::endl;

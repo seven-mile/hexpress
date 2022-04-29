@@ -17,6 +17,7 @@
     <ClCompile Include="cmd\package\sign_pkg_cmd.ixx" />
     <ClCompile Include="cmd\user\get_users_cmd.ixx" />
     <ClCompile Include="cmd\user\recharge_cmd.ixx" />
+    <ClCompile Include="cmd\package\get_my_pkgs_cmd.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

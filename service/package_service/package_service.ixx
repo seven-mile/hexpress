@@ -1,5 +1,6 @@
 module;
 #include <type_traits>
+#include <format>
 #include <sqlite_orm/sqlite_orm.h>
 export module package_service;
 
@@ -14,6 +15,26 @@ namespace hexpress {
   };
 
   export extern constexpr time_t INVALID_TIME = static_cast<time_t>(-1);
+
+  std::string stringify_datetime(time_t val) {
+    if (val == INVALID_TIME) {
+      return std::string{ "invalid" };
+    }
+    return std::to_string(val);
+  };
+
+  export void OutputPackageInfo(
+    std::ostream &output,
+    Package const& pkg) {
+
+    output << std::format("id: {}\tname: {}\t{} -> {} [{}]  {} => {}",
+      pkg.id, pkg.name.c_str(),
+      pkg.sender.c_str(), pkg.recver.c_str(),
+      pkg.recved ? "Received" : "Sending",
+      stringify_datetime(pkg.send_time).c_str(),
+      stringify_datetime(pkg.recv_time).c_str())
+      << std::endl;
+  }
 
   using namespace sqlite_orm;
 

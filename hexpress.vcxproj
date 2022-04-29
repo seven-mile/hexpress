@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cmd\package\get_my_pkgs_cmd.ixx" />
     <ClCompile Include="cmd\package\get_pkgs_cmd.ixx" />
     <ClCompile Include="cmd\package\send_pkg_cmd.ixx" />
     <ClCompile Include="cmd\package\sign_pkg_cmd.ixx" />

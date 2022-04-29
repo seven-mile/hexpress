@@ -11,6 +11,7 @@ import recharge_cmd;
 
 // package module
 import get_pkgs_cmd;
+import get_my_pkgs_cmd;
 import send_pkg_cmd;
 import sign_pkg_cmd;
 
@@ -28,6 +29,7 @@ int main()
     RechargeCommandProvider,
 
     GetPkgsCommandProvider,
+    GetMyPkgsCommandProvider,
     SendPkgCommandProvider,
     SignPkgCommandProvider,
 
