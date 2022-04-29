@@ -26,6 +26,8 @@ export namespace hexpress {
       "to_user",
     };
 
+    static constexpr auto Description = "Send a package named <name> weighed <amount> with <type = common | book | fragile> <to_user>";
+
     static bool ExecuteCommandAfterCheck(
       std::ostream& output,
       std::map<std::string, std::string> const& args) {

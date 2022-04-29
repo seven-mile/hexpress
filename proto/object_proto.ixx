@@ -27,9 +27,9 @@ namespace hexpress {
   }
 
   export ObjectType parse_object_type(std::string const& text) {
-    if (text == "Common") return ObjectType::Common;
-    else if (text == "Fragile") return ObjectType::Fragile;
-    else if (text == "Book") return ObjectType::Book;
+    if (text == "common") return ObjectType::Common;
+    else if (text == "fragile") return ObjectType::Fragile;
+    else if (text == "book") return ObjectType::Book;
     else throw std::invalid_argument("invalid object type");
   }
 
