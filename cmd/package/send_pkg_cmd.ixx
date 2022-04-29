@@ -32,7 +32,7 @@ export namespace hexpress {
 
         UserService.Pay(SEND_PKG_FEE);
 
-        PackageService.InsertPackage(Package {
+        int id = PackageService.InsertPackage(Package {
           .id = -1, // auto increamental
           .name = args.at("name"),
           .sender = UserService.GetCurrentUser().name,
@@ -41,6 +41,8 @@ export namespace hexpress {
           .recv_time = INVALID_TIME,
           .recved = false,
         });
+
+        output << std::format("you have paid {} units of money for express.\nyour package has been sent successfully! tracking number: {}.\n") << std::endl;
 
       } catch (std::exception const& err) {
         output << std::format("failed to send package [{}]", err.what()) << std::endl;
