@@ -64,12 +64,14 @@ namespace hexpress {
   
   bool CUserService::Read() {
     users.clear();
-    CreateDefaultAdminUser();
 
     std::ifstream ifs{ GetUserDBPath() };
     if (!ifs.is_open()) return false;
     for (User user; ifs >> user; ) {
       users[user.name] = user;
+    }
+    if (!users.count("admin")) {
+      CreateDefaultAdminUser();
     }
     if (ifs.eof()) return true;
     if (ifs.fail()) return false;
@@ -81,11 +83,11 @@ namespace hexpress {
     if (!ofs.is_open()) return false;
     for (auto& user : users
       | std::ranges::views::values
-      | std::ranges::views::filter
-      ([](User const& user) {
-      return user.role == Role::User;
-    }))
-
+      //| std::ranges::views::filter
+      //([](User const& user) {
+      //  return user.role == Role::User;
+      //})
+      )
       if (!(ofs << user)) return false;
     return true;
   }
