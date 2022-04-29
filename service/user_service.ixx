@@ -15,7 +15,7 @@ namespace hexpress {
   };
 
   export struct User {
-    std::string name, realname, phone, pass, address;
+    std::string name, pass, realname, phone, address;
     uint64_t money;
     Role role;
 
@@ -65,8 +65,24 @@ namespace hexpress {
     std::map<std::string, User> users{};
     std::string cur_user{};
 
+    void CreateDefaultAdminUser() {
+      users.emplace(
+        std::string{ "admin" },
+        User{
+          .name = "admin",
+          .pass = "admin",
+          .realname = "admin",
+          .phone = "",
+          .address = "",
+          .money = 0,
+          .role = Role::Admin,
+        }
+      );
+    }
+
     bool Read() {
       users.clear();
+      CreateDefaultAdminUser();
 
       std::ifstream ifs{ file_path };
       if (!ifs.is_open()) return false;
@@ -81,7 +97,13 @@ namespace hexpress {
     bool Write() {
       std::ofstream ofs{ file_path, std::ios::trunc };
       if (!ofs.is_open()) return false;
-      for (auto& user : users | std::ranges::views::values)
+      for (auto& user : users
+        | std::ranges::views::values
+        | std::ranges::views::filter
+          ([](User const &user) {
+            return user.role == Role::User;
+          }))
+
         if (!(ofs << user)) return false;
       return true;
     }
@@ -123,7 +145,7 @@ namespace hexpress {
       if (auto &user = users.at(username); user.pass == pass) {
         cur_user = user.name;
       } else {
-        throw new std::logic_error("wrong password");
+        throw std::logic_error("wrong password");
       }
     }
 
