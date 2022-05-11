@@ -25,22 +25,22 @@ namespace hexpress {
   concept CharPointerArray = is_char_pointer_array_v<T>;
 
   export template<class T>
-  concept CLIProvider =
-  requires(
-    std::map<std::string, std::string> const& arg,
-    std::ostream & output) {
-      { T::Prototype } -> CharPointerArray;
-      { T::ExecuteCommand(output, arg) } -> std::same_as<bool>;
+  concept CLIProvider = requires(
+    T x,
+    std::map<std::string, std::string> const &arg,
+    std::ostream &output) {
+    { T::Prototype } -> CharPointerArray;
+    { T::ExecuteCommand(output, arg) } -> std::same_as<bool>;
   };
 
   export template<class T>
-  concept CLIProviderHasOptional = requires() {
+  concept CLIProviderHasOptional = requires(T x) {
     { T::Optional } -> CharPointerArray;
   };
 
   export template<class T>
-    concept CLIProviderHasDescription = requires() {
-      { T::Description } -> std::convertible_to<const char *>;
+    concept CLIProviderHasDescription = requires(T x) {
+      { T::Description } -> std::same_as<const char* const&>;
   };
 
   export class CommandLineManager {
@@ -252,11 +252,11 @@ help: [command]
     }
   };
 
-  export template<hexpress::CLIProvider... Ps>
+  export template<CLIProvider... Ps>
   void Startup(std::istream &input = std::cin, std::ostream &output = std::cout) {
-    hexpress::CommandLineManager cli{ input, output };
+    CommandLineManager cli{ input, output };
 
-    cli.ProcessStream<hexpress::HelpCommandProvider<Ps...>, Ps...>();
+    cli.ProcessStream<HelpCommandProvider<Ps...>, Ps...>();
   }
 
 }

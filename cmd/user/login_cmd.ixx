@@ -22,9 +22,9 @@ export namespace hexpress {
       std::ostream& output,
       std::map<std::string, std::string> const& args) {
 
-      std::string username = args.at("username"), pass = args.at("password");
-      
       try {
+        std::string username = args.at("username"), pass = args.at("password");
+
         UserService.Login(username, pass);
       } catch (std::exception const& err) {
         output << std::format("failed to login [{}]\n", err.what());
